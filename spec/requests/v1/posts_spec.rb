@@ -66,7 +66,14 @@ RSpec.describe "V1::Posts", type: :request do
   end
   
   describe "POST #create" do
-    
+    subject { post(v1_posts_path, params: post_params) }
+    context "パラメータが正常なとき" do
+      let(:post_params) { { post: attributes_for(:post) } }
+      it "データが保存されること" do
+        expect { subject }.to change { Post.count }.by(1)
+        expect(response).to have_http_status(:ok)
+      end
+    end
   end
 
   describe "PATCH #update" do
