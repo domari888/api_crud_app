@@ -95,6 +95,13 @@ RSpec.describe "V1::Posts", type: :request do
   end
 
   describe "DELETE #destroy" do
-    
+    subject { delete(v1_post_path(post.id))}
+    let!(:post) { create(:post) }
+    context "投稿が存在するとき" do
+      it "データが削除されること" do
+        expect { subject }.to change { Post.count }.by(-1)
+        expect(response).to have_http_status(:no_content)
+      end
+    end
   end
 end
